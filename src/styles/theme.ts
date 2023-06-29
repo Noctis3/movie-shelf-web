@@ -11,6 +11,13 @@ const fonts = {
   body: `'DM Sans', sans-serif`,
 };
 
+const colors = {
+  background: {
+    light: "#FFFFFF",
+    dark: "#111111",
+  },
+};
+
 const theme = extendTheme({
   styles: {
     global: (props: { colorMode: string }) => ({
@@ -18,12 +25,13 @@ const theme = extendTheme({
         transition: "background-color .3s linear",
         color: props.colorMode === "dark" ? "white.primary" : "black.secondary",
         backgroundColor:
-          props.colorMode === "dark" ? "black.primary" : "white.primary",
+          props.colorMode === "dark" ? "background.dark" : "background.light",
       },
     }),
   },
   config,
   fonts,
+  colors,
 });
 
 export default theme;
