@@ -13,7 +13,7 @@ const fonts = {
 
 const colors = {
   background: {
-    light: "#FFFFFF",
+    light: "#F0F2F5",
     dark: "#111111",
   },
 };
