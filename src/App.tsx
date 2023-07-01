@@ -4,10 +4,15 @@ import { ColorModeSwitcher } from "./components/ColorModeSwitcher";
 
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
-import { Julho } from "./routes";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 export const App = () => (
   <ChakraProvider theme={theme}>
     <ColorModeSwitcher />
-    <Julho />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   </ChakraProvider>
 );
