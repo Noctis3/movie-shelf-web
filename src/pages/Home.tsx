@@ -3,14 +3,15 @@ import api from '../services/api';
 import { useEffect } from 'react';
 
 export const Home = () => {
-  api
-    .get('/movie/upcoming')
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching movies:', error);
-    });
+  async function teste() {
+    try {
+      const { data } = await api.get('/authentication');
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  teste();
 
   return <Heading>Olá</Heading>;
 };
