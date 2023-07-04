@@ -9,21 +9,21 @@ import {
   Link,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export const Login = () => {
-  const moviedbRegisterLink = "https://www.themoviedb.org/signup";
+  const moviedbRegisterLink = 'https://www.themoviedb.org/signup';
   return (
-    <Flex minH={"100vh"} align={"center"} justify={"center"}>
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Login</Heading>
+    <Flex minH={'100vh'} align={'center'} justify={'center'}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Login</Heading>
         </Stack>
         <Box
-          minW={"21rem"}
-          rounded={"lg"}
-          bg={useColorModeValue("white", "#424242")}
-          boxShadow={"lg"}
+          minW={'21rem'}
+          rounded={'lg'}
+          bg={useColorModeValue('white', '#424242')}
+          boxShadow={'lg'}
           p={8}
         >
           <Stack spacing={4}>
@@ -36,14 +36,14 @@ export const Login = () => {
               <Input type="password" />
             </FormControl>
             <Stack spacing={10}>
-              <Link color={"blue.400"} href={moviedbRegisterLink} isExternal>
+              <Link color={'blue.400'} href={moviedbRegisterLink} isExternal>
                 Cadastre-se
               </Link>
               <Button
-                bg={"blue.400"}
-                color={"white"}
+                bg={'blue.400'}
+                color={'white'}
                 _hover={{
-                  bg: "blue.500",
+                  bg: 'blue.500',
                 }}
               >
                 Entrar
