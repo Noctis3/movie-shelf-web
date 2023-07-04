@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
   Link,
   Stack,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import api from '../services/api';
 import {
@@ -18,12 +19,16 @@ import {
   GET_ACCOUNT_DETAILS,
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
+import { AuthContext } from '../contexts/auth';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const toast = useToast();
 
-  async function handleSignIn() {
+  async function signIn(username: string, password: string) {
     try {
       const createRequestTokenResponse = await api.get(CREATE_REQUEST_TOKEN);
       console.log(createRequestTokenResponse.data);
@@ -40,12 +45,21 @@ export const Login = () => {
         request_token: validateRequestTokenResponse.data.request_token,
       });
       console.log(createSessionResponse.data);
-      const accountDetails = await api.get(
-        `${GET_ACCOUNT_DETAILS}?session_id=${createSessionResponse.data.session_id}`
-      );
-      console.log(accountDetails.data);
     } catch (error) {
-      console.log(error);
+      return Promise.reject(error);
+    }
+  }
+  async function handleSignIn() {
+    try {
+      await signIn(username, password);
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: 'Erro ao logar',
+        position: 'top-right',
+        status: 'error',
+        isClosable: true,
+      });
     }
   }
 
