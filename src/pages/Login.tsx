@@ -12,47 +12,26 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import api from '../services/api';
-import {
-  CREATE_REQUEST_TOKEN,
-  CREATE_SESSION,
-  GET_ACCOUNT_DETAILS,
-  VALIDATE_REQUEST_TOKEN,
-} from '../types/requests';
 import { AuthContext } from '../contexts/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { signIn } = useContext(AuthContext);
   const toast = useToast();
 
-  async function signIn(username: string, password: string) {
-    try {
-      const createRequestTokenResponse = await api.get(CREATE_REQUEST_TOKEN);
-      console.log(createRequestTokenResponse.data);
-      const validateRequestTokenResponse = await api.post(
-        VALIDATE_REQUEST_TOKEN,
-        {
-          username,
-          password,
-          request_token: createRequestTokenResponse.data.request_token,
-        }
-      );
-      console.log(validateRequestTokenResponse.data);
-      const createSessionResponse = await api.post(CREATE_SESSION, {
-        request_token: validateRequestTokenResponse.data.request_token,
-      });
-      console.log(createSessionResponse.data);
-    } catch (error) {
-      return Promise.reject(error);
-    }
-  }
   async function handleSignIn() {
     try {
-      await signIn(username, password);
+      await signIn({ username, password });
       navigate('/');
+      toast({
+        title: 'Bem-vindo :D',
+        position: 'top-right',
+        status: 'success',
+        isClosable: true,
+      });
     } catch (error) {
       toast({
         title: 'Erro ao logar',

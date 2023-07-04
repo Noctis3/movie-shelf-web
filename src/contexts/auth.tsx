@@ -2,11 +2,9 @@ import { ReactNode, createContext, useCallback, useState } from 'react';
 import {
   CREATE_REQUEST_TOKEN,
   CREATE_SESSION,
-  GET_ACCOUNT_DETAILS,
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
 import api from '../services/api';
-import { useNavigate } from 'react-router-dom';
 
 type User = {
   avatar: {
@@ -44,7 +42,6 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
-  const navigate = useNavigate();
   const signIn = useCallback(
     async ({ username, password }: SignInCredentials) => {
       try {
@@ -63,13 +60,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
           request_token: validateRequestTokenResponse.data.request_token,
         });
         console.log(createSessionResponse.data);
-
-        // const accountDetails = await api.get(
-        //   `${GET_ACCOUNT_DETAILS}?session_id=${createSessionResponse.data.session_id}`
-        // );
-        // console.log(accountDetails.data);
       } catch (error) {
-        console.log(error);
+        return Promise.reject(error);
       }
     },
     []
