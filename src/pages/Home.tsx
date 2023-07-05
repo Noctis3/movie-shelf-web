@@ -1,5 +1,8 @@
 import { Heading } from '@chakra-ui/react';
+import { AuthContext } from '../contexts/auth';
+import { useContext } from 'react';
 
 export const Home = () => {
-  return <Heading>Olá</Heading>;
+  const { user } = useContext(AuthContext);
+  return <Heading>Olá {user.username}</Heading>;
 };
