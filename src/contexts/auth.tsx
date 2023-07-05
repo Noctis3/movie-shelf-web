@@ -2,6 +2,7 @@ import { ReactNode, createContext, useCallback, useState } from 'react';
 import {
   CREATE_REQUEST_TOKEN,
   CREATE_SESSION,
+  GET_ACCOUNT_DETAILS,
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
 import api from '../services/api';
@@ -60,11 +61,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
           request_token: validateRequestTokenResponse.data.request_token,
         });
         console.log(createSessionResponse.data);
+        const accountDetailsResponse = await api.get(
+          `${GET_ACCOUNT_DETAILS}?session_id=${createSessionResponse.data.session_id}`
+        );
+        console.log(accountDetailsResponse.data);
+        setUser({
+          ...accountDetailsResponse.data,
+          sessionId: createSessionResponse.data.session_id,
+        });
+
+        console.log(user);
       } catch (error) {
         return Promise.reject(error);
       }
     },
-    []
+    [user]
   );
   return (
     <AuthContext.Provider
