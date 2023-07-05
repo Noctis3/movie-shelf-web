@@ -9,6 +9,7 @@ import {
   Input,
   Link,
   Stack,
+  ToastPosition,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
@@ -21,24 +22,36 @@ export const Login = () => {
   const navigate = useNavigate();
   const { signIn } = useContext(AuthContext);
   const toast = useToast();
+  type toastStatus =
+    | 'error'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'loading'
+    | undefined;
+
+  const toasts = {
+    erro: {
+      title: 'Erro ao logar',
+      position: 'top-right' as ToastPosition | undefined,
+      status: 'error' as toastStatus,
+      isClosable: true,
+    },
+    success: {
+      title: 'Bem-vindo :D',
+      position: 'top-right' as ToastPosition | undefined,
+      status: 'success' as toastStatus,
+      isClosable: true,
+    },
+  };
 
   async function handleSignIn() {
     try {
       await signIn({ username, password });
       navigate('/');
-      toast({
-        title: 'Bem-vindo :D',
-        position: 'top-right',
-        status: 'success',
-        isClosable: true,
-      });
+      toast(toasts.success);
     } catch (error) {
-      toast({
-        title: 'Erro ao logar',
-        position: 'top-right',
-        status: 'error',
-        isClosable: true,
-      });
+      toast(toasts.erro);
     }
   }
 
