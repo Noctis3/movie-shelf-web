@@ -6,6 +6,7 @@ import {
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
 import api from '../services/api';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 type User = {
   avatar: {
@@ -33,6 +34,8 @@ type SignInCredentials = {
 type AuthContextData = {
   user: User;
   signIn: (credentials: SignInCredentials) => Promise<void>;
+  signOut: () => void;
+  isSignedIn: boolean;
 };
 
 type AuthProviderProps = {
@@ -43,6 +46,9 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
+  const cookies = parseCookies();
+
+  const isSignedIn = !!cookies['session_id'];
   const signIn = useCallback(
     async ({ username, password }: SignInCredentials) => {
       try {
@@ -71,17 +77,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
 
         console.log(user);
+        setCookie(null, 'session_id', user.sessionId, {
+          maxAge: 60 * 60 * 2,
+          path: '/',
+        });
       } catch (error) {
         return Promise.reject(error);
       }
     },
     [user]
   );
+
+  const signOut = () => {
+    destroyCookie(null, 'session_id', {
+      path: '/',
+    });
+
+    window.location.replace('/login');
+  };
   return (
     <AuthContext.Provider
       value={{
         user,
         signIn,
+        signOut,
+        isSignedIn,
       }}
     >
       {children}
