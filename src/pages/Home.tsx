@@ -23,9 +23,6 @@ export const Home = () => {
 
   return (
     <>
-      <ColorModeSwitcher />
-      <Heading>Olá {user.username}</Heading>
-      <Button onClick={signOut}>sair</Button>
       <MovieBanner
         imageUrl={`https://image.tmdb.org/t/p/original${movieBanner.backdrop_path}`}
         title={movieBanner.title}
