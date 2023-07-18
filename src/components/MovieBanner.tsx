@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import tmdbLogo from '../assets/images/tmdb.png';
 import { AiFillPlayCircle } from 'react-icons/ai';
+import Header from './Header';
 
 interface MovieBannerProps {
   imageUrl: string;
@@ -25,30 +26,28 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
   rating,
 }) => {
   return (
-    <Box
+    <Flex
       w="100%"
       h={['23rem', '23rem', '38rem']}
-      position="relative"
+      backgroundImage={imageUrl}
+      backgroundSize={'cover'}
+      backgroundPosition={'center center'}
+      justifyContent="space-between"
+      direction="column"
       cursor="pointer"
     >
-      <Image
-        src={imageUrl}
-        alt="Product Image"
-        objectFit="cover"
-        w="100%"
-        h="100%"
-        filter="auto"
-        brightness="50%"
-      />
+      <Header />
       <Flex
         direction="column"
-        position="absolute"
-        bottom="0"
-        paddingLeft="40px"
+        justifyContent="center"
+        padding={['0 1rem', '0 2rem', '0 6rem']}
         w="100%"
-        h="70%"
+        h="100%"
         overflow="hidden"
         gap="1rem"
+        bgGradient={
+          'linear-gradient(90deg, rgba(0,0,0,0.5130427170868348) 0%, rgba(0,0,0,0.5130427170868348) 100%)'
+        }
       >
         <Heading lineHeight="shorter" as="h2" size="3xl" color="white">
           {title}
@@ -66,7 +65,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
           </Button>
         </VStack>
       </Flex>
-    </Box>
+    </Flex>
   );
 };
 export default MovieBanner;
