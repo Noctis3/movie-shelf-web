@@ -17,9 +17,14 @@ import {
   Center,
   Heading,
   Text,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -49,13 +54,27 @@ export default function Header() {
         h={16}
         alignItems={'center'}
         justifyContent={'space-between'}
-        color="white"
         padding={['0 1rem', '0 2rem', '0 6rem']}
         bgGradient={
           'linear-gradient(90deg, rgba(0,0,0,0.5130427170868348) 0%, rgba(0,0,0,0.5130427170868348) 100%)'
         }
       >
-        <Heading size="md">Noctis</Heading>
+        <Heading color="white" size="md">
+          Noctis
+        </Heading>
+
+        <InputGroup w="32rem">
+          <InputRightElement pointerEvents="none">
+            <AiOutlineSearch color="white" />
+          </InputRightElement>
+          <Input
+            border="2px solid"
+            color="#D1D5DB"
+            placeholder="Pesquise por um filme, série..."
+            _placeholder={{ opacity: 1, color: '#D1D5DB' }}
+            focusBorderColor="none"
+          />
+        </InputGroup>
 
         <Flex alignItems={'center'}>
           <Stack direction={'row'} spacing={7}>
