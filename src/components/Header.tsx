@@ -1,53 +1,42 @@
-import { ReactNode, useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
   Avatar,
-  Link,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
-  useColorModeValue,
   Stack,
-  useColorMode,
   Center,
   Heading,
   Text,
   Input,
   InputGroup,
-  InputLeftElement,
   InputRightElement,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
 
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}
-  >
-    {children}
-  </Link>
-);
-
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const userAvatar = user.avatar.tmdb
-    ? `https://image.tmdb.org/t/p/w400${user.avatar.tmdb.avatar_path}`
-    : 'https://avatars.dicebear.com/api/male/username.svg';
+  const [username, setUsername] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+
+  useEffect(() => {
+    if (Object.keys(user).length !== 0) {
+      setUsername(user.username);
+      setUserAvatar(
+        `https://image.tmdb.org/t/p/w400${user.avatar.tmdb.avatar_path}`
+      );
+    } else {
+      setUsername('Usuário');
+      setUserAvatar('https://avatars.dicebear.com/api/male/username.svg');
+    }
+  }, [user]);
   return (
     <Box>
       <Flex
@@ -96,7 +85,7 @@ export default function Header() {
                 </Center>
                 <br />
                 <Center>
-                  <Text>{user.username}</Text>
+                  <Text>{username}</Text>
                 </Center>
                 <br />
                 <MenuDivider />
