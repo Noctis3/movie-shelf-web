@@ -18,10 +18,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
   genres,
 }) => {
   return (
-    <Box w="14rem" h="30rem">
+    <Box minW="5rem" w="16rem" h="30rem">
       <Image
         w="100%"
-        h="20rem"
+        h="24rem"
         align="center"
         objectFit="cover"
         src={imageUrl}
@@ -29,7 +29,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
       />
       <VStack spacing=".5rem" align="start" mt="0.75rem">
         <Text variant="subtitle">{release}</Text>
-        <Heading as="h4" size="sm">
+        <Heading as="h4" size="sm" noOfLines={1}>
           {title}
         </Heading>
         <HStack>
