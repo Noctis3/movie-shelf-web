@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useCallback, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import {
   CREATE_REQUEST_TOKEN,
   CREATE_SESSION,
@@ -47,8 +53,22 @@ export const AuthContext = createContext({} as AuthContextData);
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const cookies = parseCookies();
+  const isSignedIn = !!cookies.session_id;
 
-  const isSignedIn = !!cookies['session_id'];
+  const saveToLocalStorage = (data: User) => {
+    localStorage.setItem('user', JSON.stringify(data));
+  };
+
+  const loadFromLocalStorage = () => {
+    const storedData = localStorage.getItem('user');
+    return storedData ? JSON.parse(storedData) : {};
+  };
+
+  useEffect(() => {
+    const storedUser = loadFromLocalStorage();
+    setUser(storedUser);
+  }, []);
+
   const signIn = useCallback(
     async ({ username, password }: SignInCredentials) => {
       try {
@@ -81,6 +101,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
           maxAge: 60 * 60 * 2,
           path: '/',
         });
+        setCookie(null, 'user', JSON.stringify(user), {
+          maxAge: 60 * 60 * 2,
+          path: '/',
+        });
+        saveToLocalStorage(user);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -90,6 +115,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = () => {
     destroyCookie(null, 'session_id', {
+      path: '/',
+    });
+    destroyCookie(null, 'user', {
       path: '/',
     });
 
