@@ -20,20 +20,32 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { MovieContext } from '../contexts/movies';
+import { useNavigate } from 'react-router';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
+  const { searchMovie } = useContext(MovieContext);
   const [username, setUsername] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
+
+  async function handleSearchMovie() {
+    try {
+      await searchMovie(search);
+      navigate('/search');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
-      setUsername(user.username);
       setUserAvatar(
         `https://image.tmdb.org/t/p/w400${user.avatar.tmdb.avatar_path}`
       );
     } else {
-      setUsername('Usuário');
       setUserAvatar('https://avatars.dicebear.com/api/male/username.svg');
     }
   }, [user]);
@@ -53,7 +65,7 @@ export default function Header() {
         </Heading>
 
         <InputGroup w="32rem">
-          <InputRightElement pointerEvents="none">
+          <InputRightElement onClick={handleSearchMovie}>
             <AiOutlineSearch color="white" />
           </InputRightElement>
           <Input
@@ -62,6 +74,7 @@ export default function Header() {
             placeholder="Pesquise por um filme, série..."
             _placeholder={{ opacity: 1, color: '#D1D5DB' }}
             focusBorderColor="none"
+            onChange={(e) => setSearch(e.target.value)}
           />
         </InputGroup>
 
@@ -85,7 +98,7 @@ export default function Header() {
                 </Center>
                 <br />
                 <Center>
-                  <Text>{username}</Text>
+                  <Text>{user.username}</Text>
                 </Center>
                 <br />
                 <MenuDivider />
