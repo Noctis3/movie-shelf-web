@@ -36,7 +36,6 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
       direction="column"
       cursor="pointer"
     >
-      <Header />
       <Flex
         direction="column"
         justifyContent="center"
