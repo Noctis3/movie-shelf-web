@@ -56,23 +56,16 @@ export default function Header() {
         alignItems={'center'}
         justifyContent={'space-between'}
         padding={['0 1rem', '0 2rem', '0 6rem']}
-        bgGradient={
-          'linear-gradient(90deg, rgba(0,0,0,0.5130427170868348) 0%, rgba(0,0,0,0.5130427170868348) 100%)'
-        }
       >
-        <Heading color="white" size="md">
-          Noctis
-        </Heading>
+        <Heading size="md">Noctis</Heading>
 
         <InputGroup w="32rem">
           <InputRightElement onClick={handleSearchMovie}>
-            <AiOutlineSearch color="white" />
+            <AiOutlineSearch />
           </InputRightElement>
           <Input
             border="2px solid"
-            color="#D1D5DB"
             placeholder="Pesquise por um filme, série..."
-            _placeholder={{ opacity: 1, color: '#D1D5DB' }}
             focusBorderColor="none"
             onChange={(e) => setSearch(e.target.value)}
           />
