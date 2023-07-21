@@ -8,6 +8,7 @@ import { GET_MOVIE_LIST } from '../types/requests';
 import MovieBanner from '../components/MovieBanner';
 import { genres, MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
+import Header from '../components/Header';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
@@ -25,6 +26,7 @@ export const Home = () => {
 
   return (
     <>
+      <Header />
       <MovieBanner
         imageUrl={`https://image.tmdb.org/t/p/original${movieBanner.backdrop_path}`}
         title={movieBanner.title}
