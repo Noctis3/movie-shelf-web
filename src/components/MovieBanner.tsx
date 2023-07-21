@@ -5,6 +5,7 @@ import {
   HStack,
   Heading,
   Image,
+  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -27,8 +28,9 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
 }) => {
   return (
     <Flex
-      w="100%"
-      h={['23rem', '23rem', '38rem']}
+      h={['17rem', '23rem', '38rem']}
+      borderRadius={['1rem', '0rem', '0rem']}
+      margin={['1rem', '0rem']}
       backgroundImage={imageUrl}
       backgroundSize={'cover'}
       backgroundPosition={'center center'}
@@ -37,6 +39,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
       cursor="pointer"
     >
       <Flex
+        borderRadius={['1rem', '0rem', '0rem']}
         direction="column"
         justifyContent="center"
         padding={['0 1rem', '0 2rem', '0 6rem']}
@@ -48,21 +51,43 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
           'linear-gradient(90deg, rgba(0,0,0,0.5130427170868348) 0%, rgba(0,0,0,0.5130427170868348) 100%)'
         }
       >
-        <Heading lineHeight="shorter" as="h2" size="3xl" color="white">
+        <Heading
+          lineHeight="shorter"
+          as="h2"
+          size={['md', 'xl', '3xl']}
+          color="white"
+        >
           {title}
         </Heading>
-        <VStack align="start" w="40%" gap="1rem">
+        <Stack
+          direction={['column-reverse', 'column-reverse', 'column']}
+          align="start"
+          w={['70%', '55%', '50%', '40%']}
+          gap="1rem"
+        >
           <HStack>
             <Image src={tmdbLogo} />
             <Text fontSize="xs" color="white">
               {rating} / 100
             </Text>
           </HStack>
-          <Text color="white">{subtitle}</Text>
-          <Button colorScheme="purple" leftIcon={<AiFillPlayCircle />}>
-            ASSISTIR TRAILER
-          </Button>
-        </VStack>
+          <Text
+            h={['5rem', '6rem', '7rem']}
+            noOfLines={5}
+            overflow="hidden"
+            color="white"
+          >
+            {subtitle}
+          </Text>
+        </Stack>
+        <Button
+          fontSize={['xs', 'sm', 'md']}
+          w="min-content"
+          colorScheme="purple"
+          leftIcon={<AiFillPlayCircle />}
+        >
+          ASSISTIR TRAILER
+        </Button>
       </Flex>
     </Flex>
   );

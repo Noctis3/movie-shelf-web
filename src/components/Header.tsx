@@ -59,8 +59,11 @@ export default function Header() {
       >
         <Heading size="md">Noctis</Heading>
 
-        <InputGroup w="32rem">
-          <InputRightElement onClick={handleSearchMovie}>
+        <InputGroup
+          maxW={{ base: '70%', md: '70%' }}
+          m={{ base: '1rem', md: '0 2rem' }}
+        >
+          <InputRightElement cursor="pointer" onClick={handleSearchMovie}>
             <AiOutlineSearch />
           </InputRightElement>
           <Input
