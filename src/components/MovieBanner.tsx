@@ -7,17 +7,21 @@ import {
   Image,
   Stack,
   Text,
+  Link,
   VStack,
 } from '@chakra-ui/react';
 import tmdbLogo from '../assets/images/tmdb.png';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Header from './Header';
+import api from '../services/api';
+import { useState } from 'react';
 
 interface MovieBannerProps {
   imageUrl: string;
   title: string;
   subtitle: string;
   rating: number;
+  id: number;
 }
 
 const MovieBanner: React.FC<MovieBannerProps> = ({
@@ -25,7 +29,20 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
   title,
   subtitle,
   rating,
+  id,
 }) => {
+  async function handleSearchVideo(event: React.MouseEvent<HTMLButtonElement>) {
+    try {
+      const response = await api.get(`movie/${id}/videos?language=pt-BR`);
+      const videos = response.data.results;
+      const trailer = videos.filter((video: any) => video.type === 'Trailer');
+      const linkToTrailer = `https://www.youtube.com/watch?v=${trailer[0].key}`;
+      console.log(videos);
+      // window.open(linkToTrailer);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
   return (
     <Flex
       h={['17rem', '23rem', '38rem']}
@@ -83,6 +100,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
         </Stack>
         <Button
           fontSize={['xs', 'sm', 'md']}
+          onClick={handleSearchVideo}
           w="min-content"
           colorScheme="purple"
           leftIcon={<AiFillPlayCircle />}

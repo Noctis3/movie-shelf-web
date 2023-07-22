@@ -1,12 +1,10 @@
-import { Button, ButtonGroup, HStack, Heading, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
-import MovieCard from '../components/MovieCard';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 import api from '../services/api';
 import { GET_MOVIE_LIST } from '../types/requests';
 import MovieBanner from '../components/MovieBanner';
-import { genres, MovieData } from '../types/movies';
+import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
 
@@ -28,6 +26,7 @@ export const Home = () => {
     <>
       <Header />
       <MovieBanner
+        id={movieBanner.id}
         imageUrl={`https://image.tmdb.org/t/p/original${movieBanner.backdrop_path}`}
         title={movieBanner.title}
         subtitle={movieBanner.overview}

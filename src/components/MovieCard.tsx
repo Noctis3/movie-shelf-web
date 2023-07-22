@@ -31,7 +31,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
     <Flex
       direction={{ base: 'row', md: 'column' }}
       minW={{ base: '11rem', md: '16rem' }}
-      h={{ base: 'auto', md: '30rem' }}
+      // h={{ base: 'auto', md: "30rem" }}
+      h={{ base: 'auto', md: 'auto' }}
       gap={{ base: '1rem' }}
     >
       <Image
@@ -42,21 +43,21 @@ const MovieCard: React.FC<MovieCardProps> = ({
         src={imageUrl}
         borderRadius="1rem"
       />
-      <VStack
-        spacing=".5rem"
-        align="start"
-        mt={{ base: '0rem', md: '0.75rem' }}
-        w="100%"
-      >
+      <VStack spacing=".5rem" align="start" w="100%">
         <Text variant="subtitle">{release}</Text>
-        <Heading as="h4" size="sm" noOfLines={1}>
+        <Heading maxW={{ md: '16rem' }} as="h4" size="sm" noOfLines={1}>
           {title}
         </Heading>
         <HStack>
           <Image src={tmdbLogo} />
           <Text fontSize="xs">{rating} / 100</Text>
         </HStack>
-        <Text noOfLines={1} overflow="hidden" variant="subtitle">
+        <Text
+          noOfLines={1}
+          maxW={{ md: '16rem' }}
+          overflow="hidden"
+          variant="subtitle"
+        >
           {genres}
         </Text>
         <Text
