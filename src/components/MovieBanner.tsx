@@ -56,6 +56,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
           as="h2"
           size={['md', 'xl', '3xl']}
           color="white"
+          noOfLines={1}
         >
           {title}
         </Heading>

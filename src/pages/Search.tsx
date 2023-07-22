@@ -22,6 +22,7 @@ export const MovieSearch = () => {
           <WrapItem>
             <MovieCard
               title={movie.title}
+              overview={movie.overview}
               imageUrl={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
               release={releaseYear}
               genres={genreNames}

@@ -17,8 +17,13 @@ const MoviesSwipe: React.FC<MoviesSwipeProps> = ({
   sectionTitle,
 }) => {
   return (
-    <Flex gap="2.75rem" direction="column" padding="0 6rem">
-      <HStack justifyContent="space-between">
+    <Flex
+      w="100%"
+      gap={{ base: '1.25rem', md: '2.75rem' }}
+      direction="column"
+      padding={['0 1rem', '0 3rem', '0 6rem']}
+    >
+      <Flex direction={'row'} justifyContent="space-between">
         <Heading>{sectionTitle}</Heading>
         <Button
           rightIcon={<FaChevronRight />}
@@ -32,9 +37,12 @@ const MoviesSwipe: React.FC<MoviesSwipeProps> = ({
         >
           Ver mais
         </Button>
-      </HStack>
+      </Flex>
 
-      <HStack spacing={'5rem'}>
+      <Flex
+        gap={{ base: '1.25rem', md: '5rem' }}
+        direction={{ base: 'column', md: 'row' }}
+      >
         {movieList.map((movie, i) => {
           const movieGenres = movie.genre_ids.map((genreId) => {
             const genre = genres.find((genre) => genre.id === genreId);
@@ -43,16 +51,19 @@ const MoviesSwipe: React.FC<MoviesSwipeProps> = ({
           const genreNames = movieGenres.join(', ');
           const releaseYear = movie.release_date.split('-')[0];
           return (
-            <MovieCard
-              title={movie.title}
-              imageUrl={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
-              release={releaseYear}
-              genres={genreNames}
-              rating={movie.vote_average * 10}
-            />
+            <div key={i}>
+              <MovieCard
+                title={movie.title}
+                overview={movie.overview}
+                imageUrl={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
+                release={releaseYear}
+                genres={genreNames}
+                rating={movie.vote_average * 10}
+              />
+            </div>
           );
         })}
-      </HStack>
+      </Flex>
     </Flex>
   );
 };

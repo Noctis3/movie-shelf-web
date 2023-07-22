@@ -34,7 +34,7 @@ export const Home = () => {
         rating={movieBanner.vote_average * 10}
       />
 
-      <VStack marginTop="5rem" spacing="6rem">
+      <VStack marginTop={{ base: '1.1rem', md: '5rem' }} spacing="6rem">
         <MoviesSwipe movieList={limitedMovieList} sectionTitle="Lançamentos" />
         <MoviesSwipe
           movieList={recommendedMovieList}
