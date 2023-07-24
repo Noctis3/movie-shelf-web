@@ -9,29 +9,23 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import tmdbLogo from '../assets/images/tmdb.png';
+import { MovieData, genres } from '../types/movies';
 
 interface MovieCardProps {
-  imageUrl: string;
-  release: string;
-  title: string;
-  overview: string;
-  rating: number;
-  genres: string;
+  movie: MovieData;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({
-  imageUrl,
-  release,
-  title,
-  overview,
-  rating,
-  genres,
-}) => {
+const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
+  const releaseYear = movie.release_date.split('-')[0];
+  const movieGenres = movie.genre_ids.map((genreId) => {
+    const genre = genres.find((genre) => genre.id === genreId);
+    return genre ? genre.name : '';
+  });
+  const genreNames = movieGenres.join(', ');
   return (
     <Flex
       direction={{ base: 'row', md: 'column' }}
       minW={{ base: '11rem', md: '16rem' }}
-      // h={{ base: 'auto', md: "30rem" }}
       h={{ base: 'auto', md: 'auto' }}
       gap={{ base: '1rem' }}
     >
@@ -40,17 +34,17 @@ const MovieCard: React.FC<MovieCardProps> = ({
         h={{ base: '17.6rem', md: '24rem' }}
         align="center"
         objectFit="cover"
-        src={imageUrl}
+        src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
         borderRadius="1rem"
       />
       <VStack spacing=".5rem" align="start" w="100%">
-        <Text variant="subtitle">{release}</Text>
+        <Text variant="subtitle">{releaseYear}</Text>
         <Heading maxW={{ md: '16rem' }} as="h4" size="sm" noOfLines={1}>
-          {title}
+          {movie.title}
         </Heading>
         <HStack>
           <Image src={tmdbLogo} />
-          <Text fontSize="xs">{rating} / 100</Text>
+          <Text fontSize="xs">{movie.vote_average * 10} / 100</Text>
         </HStack>
         <Text
           noOfLines={1}
@@ -58,7 +52,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           overflow="hidden"
           variant="subtitle"
         >
-          {genres}
+          {genreNames}
         </Text>
         <Text
           h="100%"
@@ -68,7 +62,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           overflow={'hidden'}
           display={{ base: 'flex', md: 'none' }}
         >
-          {overview}
+          {movie.overview}
         </Text>
       </VStack>
     </Flex>

@@ -44,22 +44,9 @@ const MoviesSwipe: React.FC<MoviesSwipeProps> = ({
         direction={{ base: 'column', md: 'row' }}
       >
         {movieList.map((movie, i) => {
-          const movieGenres = movie.genre_ids.map((genreId) => {
-            const genre = genres.find((genre) => genre.id === genreId);
-            return genre ? genre.name : '';
-          });
-          const genreNames = movieGenres.join(', ');
-          const releaseYear = movie.release_date.split('-')[0];
           return (
             <div key={i}>
-              <MovieCard
-                title={movie.title}
-                overview={movie.overview}
-                imageUrl={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
-                release={releaseYear}
-                genres={genreNames}
-                rating={movie.vote_average * 10}
-              />
+              <MovieCard movie={movie} />
             </div>
           );
         })}
