@@ -31,6 +31,40 @@ const components = {
       },
     },
   },
+  Button: {
+    variants: {
+      genre: {
+        bg: 'transparent',
+        border: '2px solid purple',
+        borderRadius: '3.125rem',
+        fontSize: '.8125rem',
+        height: '25px',
+        color: 'purple',
+        _hover: {
+          bg: 'purple',
+          color: 'white',
+          transition: 'all .2s linear',
+        },
+        _active: {
+          bg: 'purple',
+          color: 'white',
+        },
+        _dark: {
+          color: 'purple.300',
+          borderColor: 'purple.300',
+
+          _hover: {
+            bg: 'purple.300',
+            color: 'white',
+          },
+          _active: {
+            bg: 'purple.300',
+            color: 'white',
+          },
+        },
+      },
+    },
+  },
 };
 
 const theme = extendTheme({
