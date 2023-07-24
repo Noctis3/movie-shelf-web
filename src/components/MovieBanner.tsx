@@ -37,8 +37,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
       const videos = response.data.results;
       const trailer = videos.filter((video: any) => video.type === 'Trailer');
       const linkToTrailer = `https://www.youtube.com/watch?v=${trailer[0].key}`;
-      console.log(videos);
-      // window.open(linkToTrailer);
+      window.open(linkToTrailer);
     } catch (error) {
       return Promise.reject(error);
     }

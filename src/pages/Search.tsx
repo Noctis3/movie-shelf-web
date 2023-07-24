@@ -5,10 +5,11 @@ import { Wrap, WrapItem, Center } from '@chakra-ui/layout';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
-import { GenresRow } from '../components/GenresRow';
+import { Button } from '@chakra-ui/react';
 
 export const MovieSearch = () => {
   const [movieResultsList, setMovieResultsList] = useState<MovieData[]>([]);
+  const [activeGenreId, setActiveGenreId] = useState(0);
   let { search } = useParams();
 
   useEffect(() => {
@@ -26,10 +27,25 @@ export const MovieSearch = () => {
     fetchMovieResults();
   }, [search]);
 
+  const handleGenre = (genreId: number) => {
+    genreId === activeGenreId ? setActiveGenreId(0) : setActiveGenreId(genreId);
+  };
+
   return (
     <>
       <Header />
-      <GenresRow />
+      {genres.map((genre) => (
+        <Button
+          onClick={() => handleGenre(genre.id)}
+          isActive={activeGenreId === genre.id}
+          key={genre.id}
+          variant="genre"
+          mr="4"
+          mt="4"
+        >
+          {genre.name}
+        </Button>
+      ))}
       <Wrap spacing="1.875rem">
         {movieResultsList.map((movie, i) => {
           const movieGenres = movie.genre_ids.map((genreId) => {
