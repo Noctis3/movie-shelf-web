@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import tmdbLogo from '../assets/images/tmdb.png';
 import { MovieData, genres } from '../types/movies';
+import { getMoviePoster } from '../types/requests';
 
 interface MovieCardProps {
   movie: MovieData;
@@ -34,7 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         h={{ base: '17.6rem', md: '24rem' }}
         align="center"
         objectFit="cover"
-        src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
+        src={getMoviePoster(movie.poster_path)}
         borderRadius="1rem"
       />
       <VStack spacing=".5rem" align="start" w="100%">

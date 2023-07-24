@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import MovieCard from '../components/MovieCard';
 import { MovieData, genres } from '../types/movies';
-import { Wrap, WrapItem, Center } from '@chakra-ui/layout';
+import { Wrap, WrapItem } from '@chakra-ui/layout';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
 import { Button } from '@chakra-ui/react';
+import { searchMovies } from '../types/requests';
 
 export const MovieSearch = () => {
   const [movieResultsList, setMovieResultsList] = useState<MovieData[]>([]);
@@ -15,9 +16,7 @@ export const MovieSearch = () => {
   useEffect(() => {
     const fetchMovieResults = async () => {
       try {
-        const response = await api.get(
-          `search/movie?query=${search}&language=pt-BR`
-        );
+        const response = await api.get(searchMovies(search!));
         setMovieResultsList(response.data.results);
       } catch (error) {
         console.error('Erro ao buscar filmes:', error);

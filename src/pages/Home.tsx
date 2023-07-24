@@ -2,7 +2,7 @@ import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
 import api from '../services/api';
-import { GET_MOVIE_LIST } from '../types/requests';
+import { GET_MOVIE_LIST, getMovieBanner } from '../types/requests';
 import MovieBanner from '../components/MovieBanner';
 import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
@@ -27,7 +27,7 @@ export const Home = () => {
       <Header />
       <MovieBanner
         id={movieBanner.id}
-        imageUrl={`https://image.tmdb.org/t/p/original${movieBanner.backdrop_path}`}
+        imageUrl={getMovieBanner(movieBanner.backdrop_path)}
         title={movieBanner.title}
         subtitle={movieBanner.overview}
         rating={movieBanner.vote_average * 10}
