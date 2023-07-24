@@ -20,24 +20,17 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { MovieContext } from '../contexts/movies';
 import { useNavigate } from 'react-router';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
-  const { searchMovie } = useContext(MovieContext);
   const [username, setUsername] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
-  async function handleSearchMovie() {
-    try {
-      await searchMovie(search);
-      navigate('/search');
-    } catch (error) {
-      console.log(error);
-    }
+  function handleSearchMovie() {
+    navigate(`/search/${search}}`);
   }
 
   useEffect(() => {

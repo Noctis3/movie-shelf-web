@@ -11,7 +11,7 @@ export const routes = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/search" element={<MovieSearch />} />
+          <Route path="/search/:search" element={<MovieSearch />} />
         </Routes>
       </PrivateRoute>
     </BrowserRouter>
