@@ -7,6 +7,7 @@ import MovieBanner from '../components/MovieBanner';
 import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
+import Movie from './Movie';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);

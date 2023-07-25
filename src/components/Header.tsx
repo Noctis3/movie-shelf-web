@@ -21,6 +21,7 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
+import { getUserPicture } from '../types/requests';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
@@ -33,11 +34,13 @@ export default function Header() {
     navigate(`/search/${search}}`);
   }
 
+  function handleHome() {
+    navigate(`/`);
+  }
+
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
-      setUserAvatar(
-        `https://image.tmdb.org/t/p/w400${user.avatar.tmdb.avatar_path}`
-      );
+      setUserAvatar(getUserPicture(user.avatar.tmdb.avatar_path));
     } else {
       setUserAvatar('https://avatars.dicebear.com/api/male/username.svg');
     }
@@ -50,7 +53,9 @@ export default function Header() {
         justifyContent={'space-between'}
         padding={['0 1rem', '0 2rem', '0 6rem']}
       >
-        <Heading size="md">Noctis</Heading>
+        <Heading cursor="pointer" onClick={handleHome} size="md">
+          Noctis
+        </Heading>
 
         <InputGroup
           maxW={{ base: '70%', md: '70%' }}

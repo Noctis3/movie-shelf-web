@@ -73,7 +73,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async ({ username, password }: SignInCredentials) => {
       try {
         const createRequestTokenResponse = await api.get(CREATE_REQUEST_TOKEN);
-        console.log(createRequestTokenResponse.data);
         const validateRequestTokenResponse = await api.post(
           VALIDATE_REQUEST_TOKEN,
           {
@@ -82,21 +81,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
             request_token: createRequestTokenResponse.data.request_token,
           }
         );
-        console.log(validateRequestTokenResponse.data);
         const createSessionResponse = await api.post(CREATE_SESSION, {
           request_token: validateRequestTokenResponse.data.request_token,
         });
-        console.log(createSessionResponse.data);
         const accountDetailsResponse = await api.get(
           `${GET_ACCOUNT_DETAILS}?session_id=${createSessionResponse.data.session_id}`
         );
-        console.log(accountDetailsResponse.data);
         setUser({
           ...accountDetailsResponse.data,
           sessionId: createSessionResponse.data.session_id,
         });
 
-        console.log(user);
         setCookie(null, 'session_id', user.sessionId, {
           maxAge: 60 * 60 * 2,
           path: '/',

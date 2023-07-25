@@ -11,6 +11,7 @@ import {
 import tmdbLogo from '../assets/images/tmdb.png';
 import { MovieData, genres } from '../types/movies';
 import { getMoviePoster } from '../types/requests';
+import { useNavigate } from 'react-router-dom';
 
 interface MovieCardProps {
   movie: MovieData;
@@ -18,11 +19,16 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
   const releaseYear = movie.release_date.split('-')[0];
+  const navigate = useNavigate();
   const movieGenres = movie.genre_ids.map((genreId) => {
     const genre = genres.find((genre) => genre.id === genreId);
     return genre ? genre.name : '';
   });
   const genreNames = movieGenres.join(', ');
+
+  function selectMovie() {
+    navigate(`/movie/${movie.id}`);
+  }
   return (
     <Flex
       direction={{ base: 'row', md: 'column' }}
@@ -37,6 +43,8 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         objectFit="cover"
         src={getMoviePoster(movie.poster_path)}
         borderRadius="1rem"
+        onClick={selectMovie}
+        cursor="pointer"
       />
       <VStack spacing=".5rem" align="start" w="100%">
         <Text variant="subtitle">{releaseYear}</Text>
@@ -45,7 +53,9 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
         </Heading>
         <HStack>
           <Image src={tmdbLogo} />
-          <Text fontSize="xs">{movie.vote_average * 10} / 100</Text>
+          <Text fontSize="xs">
+            {(movie.vote_average * 10).toFixed(0)} / 100
+          </Text>
         </HStack>
         <Text
           noOfLines={1}

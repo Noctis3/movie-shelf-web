@@ -3,6 +3,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { MovieSearch } from './pages/Search';
 import PrivateRoute from './PrivateRoutes';
+import Movie from './pages/Movie';
 
 export const routes = () => {
   return (
@@ -12,6 +13,7 @@ export const routes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/search/:search" element={<MovieSearch />} />
+          <Route path="/movie/:id" element={<Movie />} />
         </Routes>
       </PrivateRoute>
     </BrowserRouter>
