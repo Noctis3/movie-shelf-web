@@ -1,13 +1,13 @@
-import { Button, ButtonGroup, HStack, Heading, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
-import MovieCard from '../components/MovieCard';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
 import api from '../services/api';
-import { GET_MOVIE_LIST } from '../types/requests';
+import { GET_MOVIE_LIST, getMovieBanner } from '../types/requests';
 import MovieBanner from '../components/MovieBanner';
-import { genres, MovieData } from '../types/movies';
+import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
+import Header from '../components/Header';
+import Movie from './Movie';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
@@ -25,14 +25,16 @@ export const Home = () => {
 
   return (
     <>
+      <Header />
       <MovieBanner
-        imageUrl={`https://image.tmdb.org/t/p/original${movieBanner.backdrop_path}`}
+        id={movieBanner.id}
+        imageUrl={getMovieBanner(movieBanner.backdrop_path)}
         title={movieBanner.title}
         subtitle={movieBanner.overview}
         rating={movieBanner.vote_average * 10}
       />
 
-      <VStack marginTop="5rem" spacing="6rem">
+      <VStack marginTop={{ base: '1.1rem', md: '5rem' }} spacing="6rem">
         <MoviesSwipe movieList={limitedMovieList} sectionTitle="Lançamentos" />
         <MoviesSwipe
           movieList={recommendedMovieList}

@@ -20,31 +20,27 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { MovieContext } from '../contexts/movies';
 import { useNavigate } from 'react-router';
+import { getUserPicture } from '../types/requests';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
-  const { searchMovie } = useContext(MovieContext);
   const [username, setUsername] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
-  async function handleSearchMovie() {
-    try {
-      await searchMovie(search);
-      navigate('/search');
-    } catch (error) {
-      console.log(error);
-    }
+  function handleSearchMovie() {
+    navigate(`/search/${search}}`);
+  }
+
+  function handleHome() {
+    navigate(`/`);
   }
 
   useEffect(() => {
     if (Object.keys(user).length !== 0) {
-      setUserAvatar(
-        `https://image.tmdb.org/t/p/w400${user.avatar.tmdb.avatar_path}`
-      );
+      setUserAvatar(getUserPicture(user.avatar.tmdb.avatar_path));
     } else {
       setUserAvatar('https://avatars.dicebear.com/api/male/username.svg');
     }
@@ -56,23 +52,21 @@ export default function Header() {
         alignItems={'center'}
         justifyContent={'space-between'}
         padding={['0 1rem', '0 2rem', '0 6rem']}
-        bgGradient={
-          'linear-gradient(90deg, rgba(0,0,0,0.5130427170868348) 0%, rgba(0,0,0,0.5130427170868348) 100%)'
-        }
       >
-        <Heading color="white" size="md">
+        <Heading cursor="pointer" onClick={handleHome} size="md">
           Noctis
         </Heading>
 
-        <InputGroup w="32rem">
-          <InputRightElement onClick={handleSearchMovie}>
-            <AiOutlineSearch color="white" />
+        <InputGroup
+          maxW={{ base: '70%', md: '70%' }}
+          m={{ base: '1rem', md: '0 2rem' }}
+        >
+          <InputRightElement cursor="pointer" onClick={handleSearchMovie}>
+            <AiOutlineSearch />
           </InputRightElement>
           <Input
             border="2px solid"
-            color="#D1D5DB"
             placeholder="Pesquise por um filme, série..."
-            _placeholder={{ opacity: 1, color: '#D1D5DB' }}
             focusBorderColor="none"
             onChange={(e) => setSearch(e.target.value)}
           />
