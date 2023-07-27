@@ -2,7 +2,11 @@ import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
 import api from '../services/api';
-import { GET_MOVIE_LIST, getMovieBanner } from '../types/requests';
+import {
+  GET_MOVIE_LIST,
+  getFavorites,
+  getMovieBanner,
+} from '../types/requests';
 import MovieBanner from '../components/MovieBanner';
 import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
@@ -13,6 +17,7 @@ export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
   const [movieBanner, setMovieBanner] = useState<MovieData>({} as MovieData);
   const [movieList, setMovieList] = useState<MovieData[]>([]);
+  const [favoriteMovies, setFavoriteMovies] = useState<MovieData[]>([]);
   const limitedMovieList = movieList.slice(1, 6);
   const recommendedMovieList = movieList.slice(7, 12);
 
@@ -20,6 +25,9 @@ export const Home = () => {
     api.get(`${GET_MOVIE_LIST}?language=pt-BR`).then((response) => {
       setMovieBanner(response.data.results[0]);
       setMovieList(response.data.results);
+    });
+    api.get(getFavorites(user.id)).then((response) => {
+      setFavoriteMovies(response.data.results);
     });
   }, []);
 
@@ -40,6 +48,9 @@ export const Home = () => {
           movieList={recommendedMovieList}
           sectionTitle="Recomendações"
         />
+        {favoriteMovies.length > 0 && (
+          <MoviesSwipe movieList={favoriteMovies} sectionTitle="Favoritos" />
+        )}
       </VStack>
     </>
   );

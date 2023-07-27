@@ -38,3 +38,11 @@ export function getCredits(id: string) {
 export function getActorImage(path: string) {
   return `https://image.tmdb.org/t/p/w400${path}`;
 }
+
+export function getFavorites(user_id: number) {
+  return `account/${user_id}/favorite/movies`;
+}
+
+export function addFavorite(user_id: number) {
+  return `account/${user_id}/favorite`;
+}

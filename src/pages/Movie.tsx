@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 import {
   Box,
   Button,
@@ -19,6 +20,7 @@ import {
 import {
   getActorImage,
   getCredits,
+  getFavorites,
   getMovieBanner,
   getMovieDetails,
   getMoviePoster,
@@ -29,8 +31,9 @@ import tmdbLogo from '../assets/images/tmdb.png';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import api from '../services/api';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
+import { AuthContext } from '../contexts/auth';
 
 const ActorCard: React.FC<{ actor: CastData }> = ({ actor }) => {
   return (
@@ -63,6 +66,52 @@ const CastRow: React.FC<{ cast: CastData[] }> = ({ cast }) => {
         })}
       </Flex>
     </Flex>
+  );
+};
+
+const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
+  const { user } = useContext(AuthContext);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isFavorite = async () => {
+      try {
+        const response = await api.get(getFavorites(user.id));
+        const movieIDList = response.data.results.map(
+          (movie: MovieData) => movie.id
+        );
+        setIsFavorite(movieIDList.includes(movieID) ? true : false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    isFavorite();
+  }, [isFavorite, movieID, user.id]);
+  console.log('is favorite? ' + isFavorite);
+  const addFavorite = async () => {
+    try {
+      const response = await api.post(`account/${user.id}/favorite`, {
+        media_type: 'movie',
+        media_id: movieID,
+        favorite: isFavorite ? false : true,
+      });
+      console.log(response.data.status_message);
+      setIsFavorite(!isFavorite);
+      // adicionar toast
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <Button
+      onClick={addFavorite}
+      leftIcon={isFavorite ? <FaHeart /> : <FaRegHeart />}
+      colorScheme="yellow"
+    >
+      {isFavorite ? 'Remover' : 'Adicionar'}
+    </Button>
   );
 };
 
@@ -143,9 +192,7 @@ const Movie: React.FC = () => {
                   {(movie.vote_average * 10).toFixed(0)} / 100
                 </Text>
               </HStack>
-              <Button leftIcon={<FaRegHeart />} colorScheme="yellow">
-                Favoritar
-              </Button>
+              <FavoriteButton movieID={movie.id} />
             </HStack>
             <VStack spacing="0" align={'flex-start'}>
               <Text fontSize="xl" fontWeight="bold">
