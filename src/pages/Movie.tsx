@@ -15,6 +15,7 @@ import {
   MovieData,
   MovieDataById,
   MovieProviderData,
+  VideoData,
   genres,
 } from '../types/movies';
 import {
@@ -26,10 +27,11 @@ import {
   getMoviePoster,
   getProviders,
   getProvidersLogo,
+  getVideos,
 } from '../types/requests';
 import tmdbLogo from '../assets/images/tmdb.png';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import api from '../services/api';
+import { api } from '../services/api';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
@@ -115,12 +117,59 @@ const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
   );
 };
 
+const TrailerCard: React.FC<{ video: VideoData }> = ({ video }) => {
+  const movieId = useParams();
+
+  return (
+    <Flex direction="column" gap="1rem">
+      <Flex
+        w="18rem"
+        h="10rem"
+        bgPosition={'center'}
+        objectFit={'cover'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        cursor={'pointer'}
+        borderRadius="1rem"
+        _hover={{
+          transition: 'all .3s ease-in-out',
+          filter: 'brightness(0.8)',
+        }}
+      >
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${video.key}`}
+        />
+      </Flex>
+      <Heading size={'md'}>{video.type}</Heading>
+    </Flex>
+  );
+};
+
+const VideosRow: React.FC<{ videos: VideoData[] }> = ({ videos }) => {
+  return (
+    <Flex
+      direction="column"
+      gap="1rem"
+      padding={{ base: '0 1rem', md: '0 10rem' }}
+    >
+      <Heading>Videos</Heading>
+      <Flex gap={{ base: '1.5rem', md: '1rem' }} wrap="wrap">
+        {videos.map((video, i) => {
+          return <TrailerCard key={i} video={video} />;
+        })}
+      </Flex>
+    </Flex>
+  );
+};
 const Movie: React.FC = () => {
   const movieId = useParams();
   const [movie, setMovie] = useState<MovieDataById>({} as MovieDataById);
   const [movieProviders, setMovieProviders] = useState<MovieProviderData[]>([]);
   const [cast, setCast] = useState<CastData[]>([]);
   const [director, setDirector] = useState<CrewData[]>([]);
+  const [videos, setVideos] = useState<VideoData[]>([]);
   const genreNames = movie.genres?.map((genre) => genre.name).join(', ');
 
   useEffect(() => {
@@ -129,6 +178,9 @@ const Movie: React.FC = () => {
         const response = await api.get(getMovieDetails(movieId.id!));
         const providersResponse = await api.get(getProviders(movieId.id!));
         const creditsResponse = await api.get(getCredits(movieId.id!));
+        const videosResponse = await api.get(getVideos(movieId.id!));
+        console.log(videosResponse.data);
+        setVideos(videosResponse.data.results);
         setCast(creditsResponse.data.cast);
         setDirector(
           creditsResponse.data.crew.filter(
@@ -242,6 +294,7 @@ const Movie: React.FC = () => {
           </Flex>
         </Flex>
         <CastRow cast={cast?.slice(0, 6)} />
+        <VideosRow videos={videos} />
       </Flex>
     </>
   );
