@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
-import api from '../services/api';
+import { api } from '../services/api';
 import {
   GET_MOVIE_LIST,
   getFavorites,

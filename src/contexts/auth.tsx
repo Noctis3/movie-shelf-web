@@ -11,7 +11,7 @@ import {
   GET_ACCOUNT_DETAILS,
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
-import api from '../services/api';
+import { api } from '../services/api';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 type User = {

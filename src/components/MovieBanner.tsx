@@ -13,7 +13,7 @@ import {
 import tmdbLogo from '../assets/images/tmdb.png';
 import { AiFillPlayCircle } from 'react-icons/ai';
 import Header from './Header';
-import api from '../services/api';
+import { api } from '../services/api';
 import { useState } from 'react';
 
 interface MovieBannerProps {

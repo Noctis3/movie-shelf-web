@@ -2,7 +2,7 @@ import { Box, Flex, HStack, Heading } from '@chakra-ui/layout';
 import { MovieData, genres } from '../types/movies';
 import MovieCard from './MovieCard';
 import { useEffect, useState } from 'react';
-import api from '../services/api';
+import { api } from '../services/api';
 import { GET_MOVIE_LIST } from '../types/requests';
 import { FaChevronRight } from 'react-icons/fa';
 import { Button } from '@chakra-ui/button';
