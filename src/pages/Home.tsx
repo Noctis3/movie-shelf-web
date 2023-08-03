@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { api, openai } from '../services/api';
 import {
   GET_MOVIE_LIST,
   getFavorites,
@@ -12,6 +12,7 @@ import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
 import Movie from './Movie';
+import { getRecommendations } from '../types/prompts';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
@@ -22,17 +23,33 @@ export const Home = () => {
   const recommendedMovieList = movieList.slice(7, 12);
 
   useEffect(() => {
-    api.get(`${GET_MOVIE_LIST}?language=pt-BR`).then((response) => {
-      setMovieBanner(response.data.results[0]);
-      setMovieList(response.data.results);
-    });
-    console.log(user.id);
-    api
-      .get(getFavorites(user.id), { params: { session_id: user.sessionId } })
-      .then((response) => {
-        console.log(response.data);
-        setFavoriteMovies(response.data.results);
+    async function getData() {
+      const movieListResponse = await api.get(
+        `${GET_MOVIE_LIST}?language=pt-BR`
+      );
+      setMovieBanner(movieListResponse.data.results[0]);
+      setMovieList(movieListResponse.data.results);
+
+      const favoritesResponse = await api.get(getFavorites(user.id), {
+        params: { session_id: user.sessionId },
       });
+      setFavoriteMovies(favoritesResponse.data.results);
+
+      //get the name of the first three favorite movies
+      const favoriteMoviesNames = favoritesResponse.data.results
+        .slice(0, 3)
+        .map((movie: MovieData) => movie.title);
+
+      // const movieRecommendationResponse = await openai.post('', {
+      //   prompt: 'recomende filmes para quem gosta de django livre',
+      //   max_tokens: 50,
+      // });
+      // console.log(getRecommendations(favoriteMoviesNames));
+
+      // console.log(movieRecommendationResponse.data);
+    }
+
+    getData();
   }, []);
 
   return (
