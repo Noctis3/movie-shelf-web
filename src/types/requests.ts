@@ -46,3 +46,7 @@ export function getFavorites(user_id: number) {
 export function addFavorite(user_id: number) {
   return `account/${user_id}/favorite`;
 }
+
+export function getVideos(id: string) {
+  return `movie/${id}/videos?language=pt-BR`;
+}
