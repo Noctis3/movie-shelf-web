@@ -26,9 +26,13 @@ export const Home = () => {
       setMovieBanner(response.data.results[0]);
       setMovieList(response.data.results);
     });
-    api.get(getFavorites(user.id)).then((response) => {
-      setFavoriteMovies(response.data.results);
-    });
+    console.log(user.id);
+    api
+      .get(getFavorites(user.id), { params: { session_id: user.sessionId } })
+      .then((response) => {
+        console.log(response.data);
+        setFavoriteMovies(response.data.results);
+      });
   }, []);
 
   return (
