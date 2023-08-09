@@ -12,7 +12,6 @@ import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
 import Movie from './Movie';
-import { getRecommendations } from '../types/prompts';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
@@ -34,21 +33,7 @@ export const Home = () => {
         params: { session_id: user.sessionId },
       });
       setFavoriteMovies(favoritesResponse.data.results);
-
-      //get the name of the first three favorite movies
-      const favoriteMoviesNames = favoritesResponse.data.results
-        .slice(0, 3)
-        .map((movie: MovieData) => movie.title);
-
-      // const movieRecommendationResponse = await openai.post('', {
-      //   prompt: 'recomende filmes para quem gosta de django livre',
-      //   max_tokens: 50,
-      // });
-      // console.log(getRecommendations(favoriteMoviesNames));
-
-      // console.log(movieRecommendationResponse.data);
     }
-
     getData();
   }, []);
 
