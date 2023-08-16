@@ -12,14 +12,15 @@ import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
 import Movie from './Movie';
+import RecommendedMovies from '../components/RecommendedMovies';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
   const [movieBanner, setMovieBanner] = useState<MovieData>({} as MovieData);
   const [movieList, setMovieList] = useState<MovieData[]>([]);
   const [favoriteMovies, setFavoriteMovies] = useState<MovieData[]>([]);
+  const favoriteTitles = favoriteMovies.map((movie) => movie.title);
   const limitedMovieList = movieList.slice(1, 6);
-  const recommendedMovieList = movieList.slice(7, 12);
 
   useEffect(() => {
     async function getData() {
@@ -50,13 +51,12 @@ export const Home = () => {
 
       <VStack marginTop={{ base: '1.1rem', md: '5rem' }} spacing="6rem">
         <MoviesSwipe movieList={limitedMovieList} sectionTitle="Lançamentos" />
-        <MoviesSwipe
-          movieList={recommendedMovieList}
-          sectionTitle="Recomendações"
-        />
+
         {favoriteMovies.length > 0 && (
           <MoviesSwipe movieList={favoriteMovies} sectionTitle="Favoritos" />
         )}
+
+        <RecommendedMovies movieList={favoriteTitles} />
       </VStack>
     </>
   );
