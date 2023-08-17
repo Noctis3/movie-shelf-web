@@ -1,5 +1,6 @@
 import {
   Box,
+  Center,
   Flex,
   HStack,
   Heading,
@@ -49,27 +50,22 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
   }
 
   return (
-    <Flex
-      w="100%"
-      gap={{ base: '1.25rem', md: '2.75rem' }}
-      direction="column"
-      padding={['0 1rem', '0 3rem', '0 6rem']}
-    >
-      <Flex direction={'row'} justifyContent="space-between">
-        <HStack align="baseline">
+    <Flex w="100%" direction="column" padding={['0 1rem', '0 3rem', '0 6rem']}>
+      <Flex align="center" direction={'row'} justifyContent="space-between">
+        <VStack spacing={1} align="baseline">
           <Heading>Recomendados</Heading>
           <Text variant="subtitle">
             Gerado pelo ChatGPT a partir da sua lista de favoritos
           </Text>
-        </HStack>
+        </VStack>
         <Button
           isLoading={loading}
           onClick={handleGenerateRecommendations}
-          rightIcon={<FaMagic />}
           fontWeight="light"
+          borderRadius={'full'}
           colorScheme="purple"
         >
-          Gerar recomendações
+          <FaMagic />
         </Button>
       </Flex>
 
@@ -77,11 +73,17 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
         gap={{ base: '1.25rem', md: '5rem' }}
         direction={{ base: 'column', md: 'row' }}
       >
-        {recommendedMovies.map((movie, index) => (
-          <div key={index}>
-            <MovieCard movie={movie} />
-          </div>
-        ))}
+        {recommendedMovies.length > 0 ? (
+          recommendedMovies.map((movie, index) => (
+            <Box paddingTop={{ base: '1.25rem', md: '2.75rem' }} key={index}>
+              <MovieCard movie={movie} />
+            </Box>
+          ))
+        ) : (
+          <Center w="100%" h="6.25rem">
+            <Heading size="md">Nada por aqui, ainda... </Heading>
+          </Center>
+        )}
       </Flex>
     </Flex>
   );

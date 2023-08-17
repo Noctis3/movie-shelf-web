@@ -35,6 +35,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       minW={{ base: '11rem', md: '16rem' }}
       h={{ base: 'auto', md: 'auto' }}
       gap={{ base: '1rem' }}
+      marginBottom="2rem"
     >
       <Image
         w={{ base: '11rem', md: '16rem' }}

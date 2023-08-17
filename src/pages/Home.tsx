@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import { AuthContext } from '../contexts/auth';
 import { useContext, useEffect, useState } from 'react';
-import { api, openai } from '../services/api';
+import { api } from '../services/api';
 import {
   GET_MOVIE_LIST,
   getFavorites,
@@ -11,7 +11,6 @@ import MovieBanner from '../components/MovieBanner';
 import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
-import Movie from './Movie';
 import RecommendedMovies from '../components/RecommendedMovies';
 
 export const Home = () => {
@@ -20,7 +19,7 @@ export const Home = () => {
   const [movieList, setMovieList] = useState<MovieData[]>([]);
   const [favoriteMovies, setFavoriteMovies] = useState<MovieData[]>([]);
   const favoriteTitles = favoriteMovies.map((movie) => movie.title);
-  const limitedMovieList = movieList.slice(1, 6);
+  const limitedMovieList = movieList.slice(1, 10);
 
   useEffect(() => {
     async function getData() {
@@ -49,7 +48,10 @@ export const Home = () => {
         rating={movieBanner.vote_average * 10}
       />
 
-      <VStack marginTop={{ base: '1.1rem', md: '5rem' }} spacing="6rem">
+      <VStack
+        marginTop={{ base: '1.1rem', md: '5rem' }}
+        spacing={{ base: '1rem', md: '2rem' }}
+      >
         <MoviesSwipe movieList={limitedMovieList} sectionTitle="Lançamentos" />
 
         {favoriteMovies.length > 0 && (
