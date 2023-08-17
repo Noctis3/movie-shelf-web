@@ -18,7 +18,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     } else if (isSignedIn && location.pathname === '/login') {
       navigate('/');
     }
-  });
+  }, [isSignedIn, location.pathname]);
 
   return <>{children}</>;
 };

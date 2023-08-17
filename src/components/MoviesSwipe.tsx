@@ -2,10 +2,17 @@ import { Box, Flex, HStack, Heading } from '@chakra-ui/layout';
 import { MovieData, genres } from '../types/movies';
 import MovieCard from './MovieCard';
 import { useEffect, useState } from 'react';
-import api from '../services/api';
+import { api } from '../services/api';
 import { GET_MOVIE_LIST } from '../types/requests';
 import { FaChevronRight } from 'react-icons/fa';
 import { Button } from '@chakra-ui/button';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import { Navigation, Scrollbar, Autoplay } from 'swiper/modules';
 
 interface MoviesSwipeProps {
   movieList: MovieData[];
@@ -23,34 +30,57 @@ const MoviesSwipe: React.FC<MoviesSwipeProps> = ({
       direction="column"
       padding={['0 1rem', '0 3rem', '0 6rem']}
     >
-      <Flex direction={'row'} justifyContent="space-between">
-        <Heading>{sectionTitle}</Heading>
-        <Button
-          rightIcon={<FaChevronRight />}
-          color="purple.600"
-          fontWeight="light"
-          bgColor="none"
-          _hover={{
-            backgroundColor: 'transparent',
-            color: 'purple',
-          }}
-        >
-          Ver mais
-        </Button>
-      </Flex>
+      <Heading>{sectionTitle}</Heading>
+      <Swiper
+        spaceBetween={5}
+        slidesPerView={5}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: true,
+          pauseOnMouseEnter: false,
+        }}
+        breakpoints={{
+          1: {
+            slidesPerView: 1,
+            spaceBetween: 5,
+          },
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 5,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 5,
+          },
+          850: {
+            slidesPerView: 2,
+            spaceBetween: 5,
+          },
+          1000: {
+            slidesPerView: 3,
+            spaceBetween: 5,
+          },
 
-      <Flex
-        gap={{ base: '1.25rem', md: '5rem' }}
-        direction={{ base: 'column', md: 'row' }}
+          1240: {
+            slidesPerView: 4,
+            spaceBetween: 5,
+          },
+          1500: {
+            slidesPerView: 5,
+            spaceBetween: 5,
+          },
+        }}
+        modules={[Scrollbar, Navigation, Autoplay]}
+        style={{ width: '100%' }}
       >
         {movieList.map((movie, i) => {
           return (
-            <div key={i}>
+            <SwiperSlide key={i}>
               <MovieCard movie={movie} />
-            </div>
+            </SwiperSlide>
           );
         })}
-      </Flex>
+      </Swiper>
     </Flex>
   );
 };

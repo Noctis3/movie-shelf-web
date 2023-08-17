@@ -11,7 +11,7 @@ import {
   GET_ACCOUNT_DETAILS,
   VALIDATE_REQUEST_TOKEN,
 } from '../types/requests';
-import api from '../services/api';
+import { api } from '../services/api';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 type User = {
@@ -53,20 +53,19 @@ export const AuthContext = createContext({} as AuthContextData);
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
   const cookies = parseCookies();
-  const isSignedIn = !!cookies.session_id;
+  const isSignedIn = !!user.sessionId;
 
   const saveToLocalStorage = (data: User) => {
     localStorage.setItem('user', JSON.stringify(data));
   };
 
-  const loadFromLocalStorage = () => {
-    const storedData = localStorage.getItem('user');
-    return storedData ? JSON.parse(storedData) : {};
-  };
-
   useEffect(() => {
-    const storedUser = loadFromLocalStorage();
-    setUser(storedUser);
+    const storedData = localStorage.getItem('user');
+    if (storedData) {
+      setUser(JSON.parse(storedData));
+    } else {
+      setUser({} as User);
+    }
   }, []);
 
   const signIn = useCallback(
@@ -87,20 +86,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const accountDetailsResponse = await api.get(
           `${GET_ACCOUNT_DETAILS}?session_id=${createSessionResponse.data.session_id}`
         );
+
+        console.log(accountDetailsResponse);
         setUser({
           ...accountDetailsResponse.data,
           sessionId: createSessionResponse.data.session_id,
         });
 
-        setCookie(null, 'session_id', user.sessionId, {
-          maxAge: 60 * 60 * 2,
-          path: '/',
+        saveToLocalStorage({
+          ...accountDetailsResponse.data,
+          sessionId: createSessionResponse.data.session_id,
         });
-        setCookie(null, 'user', JSON.stringify(user), {
-          maxAge: 60 * 60 * 2,
-          path: '/',
-        });
-        saveToLocalStorage(user);
       } catch (error) {
         return Promise.reject(error);
       }
@@ -109,13 +105,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   const signOut = () => {
-    destroyCookie(null, 'session_id', {
-      path: '/',
-    });
-    destroyCookie(null, 'user', {
-      path: '/',
-    });
-
+    setUser({} as User);
+    localStorage.removeItem('user');
     window.location.replace('/login');
   };
   return (

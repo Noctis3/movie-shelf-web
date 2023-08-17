@@ -11,4 +11,8 @@ const api = axios.create({
   },
 });
 
-export default api;
+const openai = axios.create({
+  baseURL: 'http://localhost:3333',
+});
+
+export { api, openai };

@@ -3,7 +3,7 @@ import MovieCard from '../components/MovieCard';
 import { MovieData, genres } from '../types/movies';
 import { Wrap, WrapItem } from '@chakra-ui/layout';
 import { useParams } from 'react-router-dom';
-import api from '../services/api';
+import { api } from '../services/api';
 import Header from '../components/Header';
 import { Button } from '@chakra-ui/react';
 import { searchMovies } from '../types/requests';
