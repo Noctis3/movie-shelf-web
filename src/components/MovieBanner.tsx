@@ -15,6 +15,7 @@ import { AiFillPlayCircle } from 'react-icons/ai';
 import Header from './Header';
 import { api } from '../services/api';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface MovieBannerProps {
   imageUrl: string;
@@ -31,6 +32,7 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
   rating,
   id,
 }) => {
+  const navigate = useNavigate();
   async function handleSearchVideo(event: React.MouseEvent<HTMLButtonElement>) {
     try {
       const response = await api.get(`movie/${id}/videos?language=pt-BR`);
@@ -42,6 +44,10 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
       return Promise.reject(error);
     }
   }
+
+  function selectMovie() {
+    navigate(`/movie/${id}`);
+  }
   return (
     <Flex
       h={['17rem', '23rem', '38rem']}
@@ -52,7 +58,6 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
       backgroundPosition={'center center'}
       justifyContent="space-between"
       direction="column"
-      cursor="pointer"
     >
       <Flex
         borderRadius={['1rem', '0rem', '0rem']}
@@ -68,9 +73,11 @@ const MovieBanner: React.FC<MovieBannerProps> = ({
         }
       >
         <Heading
+          onClick={selectMovie}
           lineHeight="shorter"
           as="h2"
           size={['md', 'xl', '3xl']}
+          cursor="pointer"
           color="white"
           noOfLines={1}
         >
