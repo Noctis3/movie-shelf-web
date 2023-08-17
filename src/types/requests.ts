@@ -40,7 +40,7 @@ export function getActorImage(path: string) {
 }
 
 export function getFavorites(user_id: number) {
-  return `account/${user_id}/favorite/movies`;
+  return `account/${user_id}/favorite/movies?language=pt-BR`;
 }
 
 export function addFavorite(user_id: number) {
