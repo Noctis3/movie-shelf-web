@@ -33,7 +33,7 @@ export const MovieSearch = () => {
   return (
     <>
       <Header />
-      {genres.map((genre) => (
+      {/* {genres.map((genre) => (
         <Button
           onClick={() => handleGenre(genre.id)}
           isActive={activeGenreId === genre.id}
@@ -44,7 +44,7 @@ export const MovieSearch = () => {
         >
           {genre.name}
         </Button>
-      ))}
+      ))} */}
       <Wrap spacing="1.875rem">
         {movieResultsList.map((movie, i) => {
           return (
