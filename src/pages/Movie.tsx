@@ -77,12 +77,12 @@ const CastRow: React.FC<{ cast: CastData[] }> = ({ cast }) => {
 const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
   const { user } = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const isFavorite = async () => {
       try {
-        const response = await api.get(getFavorites(user.id));
+        const response = await api.get(getFavorites(user.id, i18n.language));
         const movieIDList = response.data.results.map(
           (movie: MovieData) => movie.id
         );
@@ -169,7 +169,7 @@ const VideosRow: React.FC<{ videos: VideoData[] }> = ({ videos }) => {
   );
 };
 const Movie: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const movieId = useParams();
   const [movie, setMovie] = useState<MovieDataById>({} as MovieDataById);
   const [movieProviders, setMovieProviders] = useState<MovieProviderData[]>([]);
@@ -181,10 +181,18 @@ const Movie: React.FC = () => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const response = await api.get(getMovieDetails(movieId.id!));
-        const providersResponse = await api.get(getProviders(movieId.id!));
-        const creditsResponse = await api.get(getCredits(movieId.id!));
-        const videosResponse = await api.get(getVideos(movieId.id!));
+        const response = await api.get(
+          getMovieDetails(movieId.id!, i18n.language)
+        );
+        const providersResponse = await api.get(
+          getProviders(movieId.id!, i18n.language)
+        );
+        const creditsResponse = await api.get(
+          getCredits(movieId.id!, i18n.language)
+        );
+        const videosResponse = await api.get(
+          getVideos(movieId.id!, i18n.language)
+        );
         console.log(videosResponse.data);
         setVideos(videosResponse.data.results);
         setCast(creditsResponse.data.cast);
@@ -205,7 +213,7 @@ const Movie: React.FC = () => {
     };
 
     fetchMovie();
-  }, []);
+  }, [i18n.language]);
 
   return (
     <>

@@ -7,8 +7,10 @@ import { api } from '../services/api';
 import Header from '../components/Header';
 import { Button } from '@chakra-ui/react';
 import { searchMovies } from '../types/requests';
+import { useTranslation } from 'react-i18next';
 
 export const MovieSearch = () => {
+  const { t, i18n } = useTranslation();
   const [movieResultsList, setMovieResultsList] = useState<MovieData[]>([]);
   const [activeGenreId, setActiveGenreId] = useState(0);
   let { search } = useParams();
@@ -16,7 +18,7 @@ export const MovieSearch = () => {
   useEffect(() => {
     const fetchMovieResults = async () => {
       try {
-        const response = await api.get(searchMovies(search!));
+        const response = await api.get(searchMovies(search!, i18n.language));
         setMovieResultsList(response.data.results);
       } catch (error) {
         console.error('Erro ao buscar filmes:', error);

@@ -28,7 +28,7 @@ interface RecommendedMoviesProps {
 const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
   const [recommendedMovies, setRecommendedMovies] = useState<MovieData[]>([]);
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   async function handleGenerateRecommendations() {
     setLoading(true);
@@ -41,7 +41,9 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
     console.log(recommendedNameList);
 
     const moviePromises = recommendedNameList.map(async (movieName: string) => {
-      const movieResponse = await api.get(searchMovies(movieName));
+      const movieResponse = await api.get(
+        searchMovies(movieName, i18n.language)
+      );
       const movieData = movieResponse.data.results[0];
       return movieData;
     });
