@@ -15,6 +15,7 @@ import { api, openai } from '../services/api';
 import { GET_MOVIE_LIST, searchMovies } from '../types/requests';
 import { FaChevronRight, FaMagic } from 'react-icons/fa';
 import { Button } from '@chakra-ui/button';
+import { useTranslation } from 'react-i18next';
 
 interface movieListFromOPENAI {
   title: string;
@@ -27,6 +28,7 @@ interface RecommendedMoviesProps {
 const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
   const [recommendedMovies, setRecommendedMovies] = useState<MovieData[]>([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   async function handleGenerateRecommendations() {
     setLoading(true);
@@ -53,9 +55,9 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
     <Flex w="100%" direction="column" padding={['0 1rem', '0 3rem', '0 6rem']}>
       <Flex align="center" direction={'row'} justifyContent="space-between">
         <VStack spacing={1} align="baseline">
-          <Heading>Recomendados</Heading>
+          <Heading>{t('homePage.recommendations.title')}</Heading>
           <Text variant="subtitle">
-            Gerado pelo ChatGPT a partir da sua lista de favoritos
+            {t('homePage.recommendations.subtitle')}
           </Text>
         </VStack>
         <Button
@@ -81,7 +83,9 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
           ))
         ) : (
           <Center w="100%" h="6.25rem">
-            <Heading size="md">Nada por aqui, ainda... </Heading>
+            <Heading size="md">
+              {t('homePage.recommendations.noRecommendations')}{' '}
+            </Heading>
           </Center>
         )}
       </Flex>
