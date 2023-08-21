@@ -22,6 +22,7 @@ import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
 import { getUserPicture } from '../types/requests';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
@@ -56,6 +57,7 @@ export default function Header() {
         <Heading cursor="pointer" onClick={handleHome} size="md">
           Noctis
         </Heading>
+        <LanguageSwitcher />
 
         <InputGroup
           maxW={{ base: '70%', md: '70%' }}
