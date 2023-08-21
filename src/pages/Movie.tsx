@@ -36,6 +36,8 @@ import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import { AuthContext } from '../contexts/auth';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 const ActorCard: React.FC<{ actor: CastData }> = ({ actor }) => {
   return (
@@ -55,13 +57,14 @@ const ActorCard: React.FC<{ actor: CastData }> = ({ actor }) => {
 };
 
 const CastRow: React.FC<{ cast: CastData[] }> = ({ cast }) => {
+  const { t } = useTranslation();
   return (
     <Flex
       direction="column"
       gap="1rem"
       padding={{ base: '0 1rem', md: '0 10rem' }}
     >
-      <Heading>Elenco</Heading>
+      <Heading>{t('moviePage.cast')}</Heading>
       <Flex gap={{ base: '1.5rem', md: '1rem' }} wrap="wrap">
         {cast.map((actor, i) => {
           return <ActorCard key={i} actor={actor} />;
@@ -74,6 +77,7 @@ const CastRow: React.FC<{ cast: CastData[] }> = ({ cast }) => {
 const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
   const { user } = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const isFavorite = async () => {
@@ -90,7 +94,6 @@ const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
 
     isFavorite();
   }, [isFavorite, movieID, user.id]);
-  console.log('is favorite? ' + isFavorite);
   const addFavorite = async () => {
     try {
       const response = await api.post(`account/${user.id}/favorite`, {
@@ -112,7 +115,9 @@ const FavoriteButton: React.FC<{ movieID: number }> = ({ movieID }) => {
       leftIcon={isFavorite ? <FaHeart /> : <FaRegHeart />}
       colorScheme="yellow"
     >
-      {isFavorite ? 'Remover' : 'Adicionar'}
+      {isFavorite
+        ? t('moviePage.favoriteButton.remove')
+        : t('moviePage.favoriteButton.add')}
     </Button>
   );
 };
@@ -164,6 +169,7 @@ const VideosRow: React.FC<{ videos: VideoData[] }> = ({ videos }) => {
   );
 };
 const Movie: React.FC = () => {
+  const { t } = useTranslation();
   const movieId = useParams();
   const [movie, setMovie] = useState<MovieDataById>({} as MovieDataById);
   const [movieProviders, setMovieProviders] = useState<MovieProviderData[]>([]);
@@ -248,7 +254,7 @@ const Movie: React.FC = () => {
             </HStack>
             <VStack spacing="0" align={'flex-start'}>
               <Text fontSize="xl" fontWeight="bold">
-                Sinopse
+                {t('moviePage.synopsis')}
               </Text>
               <Text w={{ base: '100%', md: '80%' }}>{movie.overview}</Text>
             </VStack>
@@ -259,20 +265,20 @@ const Movie: React.FC = () => {
             >
               <VStack spacing="0" align={'flex-start'}>
                 <Text fontSize="xl" fontWeight="bold">
-                  Diretor
+                  {t('moviePage.director')}
                 </Text>
                 <Text>{director[0]?.name}</Text>
               </VStack>
               <VStack spacing="0" align={'flex-start'}>
                 <Text fontSize="xl" fontWeight="bold">
-                  Orçamento
+                  {t('moviePage.budget')}
                 </Text>
                 <Text>US$ {movie.budget?.toLocaleString()}</Text>
               </VStack>
             </HStack>
             <VStack spacing=".5rem" align={'flex-start'}>
               <Text fontSize="xl" fontWeight="bold">
-                Disponível em:
+                {t('moviePage.available')}
               </Text>
               <HStack>
                 {movieProviders.length !== 0 ? (
@@ -286,7 +292,7 @@ const Movie: React.FC = () => {
                     );
                   })
                 ) : (
-                  <Text>Não disponível</Text>
+                  <Text>{t('moviePage.notAvailable')}</Text>
                 )}
                 {}
               </HStack>
