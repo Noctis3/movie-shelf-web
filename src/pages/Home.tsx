@@ -12,9 +12,11 @@ import { MovieData } from '../types/movies';
 import MoviesSwipe from '../components/MoviesSwipe';
 import Header from '../components/Header';
 import RecommendedMovies from '../components/RecommendedMovies';
+import { useTranslation } from 'react-i18next';
 
 export const Home = () => {
   const { user, signOut } = useContext(AuthContext);
+  const { t } = useTranslation();
   const [movieBanner, setMovieBanner] = useState<MovieData>({} as MovieData);
   const [movieList, setMovieList] = useState<MovieData[]>([]);
   const [favoriteMovies, setFavoriteMovies] = useState<MovieData[]>([]);
@@ -52,10 +54,16 @@ export const Home = () => {
         marginTop={{ base: '1.1rem', md: '5rem' }}
         spacing={{ base: '1rem', md: '2rem' }}
       >
-        <MoviesSwipe movieList={limitedMovieList} sectionTitle="Lançamentos" />
+        <MoviesSwipe
+          movieList={limitedMovieList}
+          sectionTitle={t('homePage.releases')}
+        />
 
         {favoriteMovies.length > 0 && (
-          <MoviesSwipe movieList={favoriteMovies} sectionTitle="Favoritos" />
+          <MoviesSwipe
+            movieList={favoriteMovies}
+            sectionTitle={t('homePage.favorites')}
+          />
         )}
 
         <RecommendedMovies movieList={favoriteTitles} />
