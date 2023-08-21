@@ -16,14 +16,22 @@ const messages = {
       homePage: {
         releases: 'Lançamentos',
         favorites: 'Favoritos',
-        recommendations: 'Recomendações',
-        noRecoomendations: 'Nada por aqui, ainda...',
+        recommendations: {
+          title: 'Recomendações',
+          noRecommendations: 'Nada por aqui, ainda...',
+          subtitle: 'Gerado pelo ChatGPT a partir da sua lista de favoritos',
+        },
       },
       moviePage: {
+        favoriteButton: {
+          add: 'Adicionar',
+          remove: 'Remover',
+        },
         synopsis: 'Sinopse',
         director: 'Diretor',
         budget: 'Orçamento',
-        avaliable: 'Disponível em',
+        available: 'Disponível em',
+        notAvailable: 'Não disponível',
         cast: 'Elenco',
         videos: 'Vídeos',
       },
