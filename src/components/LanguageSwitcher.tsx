@@ -22,7 +22,7 @@ const LanguageSwitcher = () => {
       flag: '🇺🇸',
     },
     {
-      code: 'sp',
+      code: 'es',
       name: 'Español',
       flag: '🇪🇸',
     },
@@ -33,12 +33,11 @@ const LanguageSwitcher = () => {
   function handleChangeLanguage(language: string) {
     i18n.changeLanguage(language);
     localStorage.setItem('language', language);
-    console.log(language);
   }
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<HiOutlineTranslate />}>
-        {t('settingsPage.selectLanguage.label')}
+      <MenuButton as={Button}>
+        <HiOutlineTranslate />
       </MenuButton>
       <MenuList boxSize="-moz-min-content">
         {countriesList.map((country) => (
