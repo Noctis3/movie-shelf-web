@@ -23,6 +23,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
 import { getUserPicture } from '../types/requests';
 import LanguageSwitcher from './LanguageSwitcher';
+import { t } from 'i18next';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
@@ -57,7 +58,6 @@ export default function Header() {
         <Heading cursor="pointer" onClick={handleHome} size="md">
           Noctis
         </Heading>
-        <LanguageSwitcher />
 
         <InputGroup
           maxW={{ base: '70%', md: '70%' }}
@@ -75,7 +75,8 @@ export default function Header() {
         </InputGroup>
 
         <Flex alignItems={'center'}>
-          <Stack direction={'row'} spacing={7}>
+          <Stack direction={'row'} spacing={{ base: 3, md: 7 }}>
+            <LanguageSwitcher />
             <ColorModeSwitcher />
             <Menu>
               <MenuButton
@@ -98,9 +99,9 @@ export default function Header() {
                 </Center>
                 <br />
                 <MenuDivider />
-                <MenuItem>Configurações</MenuItem>
+                <MenuItem>{t('header.settings')}</MenuItem>
                 <MenuItem onClick={signOut}>
-                  <Text>Logout</Text>
+                  <Text>{t('header.logout')}</Text>
                 </MenuItem>
               </MenuList>
             </Menu>
