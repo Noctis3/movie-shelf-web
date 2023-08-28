@@ -33,7 +33,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   function handleSearchMovie() {
-    navigate(`/search/${search}}`);
+    navigate(`/search/${search}`);
   }
 
   function handleHome() {
@@ -67,6 +67,11 @@ export default function Header() {
             <AiOutlineSearch />
           </InputRightElement>
           <Input
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearchMovie();
+              }
+            }}
             border="2px solid"
             placeholder="Pesquise por um filme, série..."
             focusBorderColor="none"
