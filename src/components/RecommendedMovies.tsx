@@ -34,6 +34,7 @@ const RecommendedMovies: React.FC<RecommendedMoviesProps> = ({ movieList }) => {
     setLoading(true);
     const recommendationResponse = await openai.post('/recommended-movies', {
       movies: JSON.stringify(movieList),
+      language: i18n.language,
     });
     const recommendedNameList = recommendationResponse.data.map(
       (movie: { title: string }) => movie.title
