@@ -22,6 +22,8 @@ import { AuthContext } from '../contexts/auth';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { useNavigate } from 'react-router';
 import { getUserPicture } from '../types/requests';
+import LanguageSwitcher from './LanguageSwitcher';
+import { t } from 'i18next';
 
 export default function Header() {
   const { user, signOut } = useContext(AuthContext);
@@ -31,7 +33,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   function handleSearchMovie() {
-    navigate(`/search/${search}}`);
+    navigate(`/search/${search}`);
   }
 
   function handleHome() {
@@ -65,6 +67,11 @@ export default function Header() {
             <AiOutlineSearch />
           </InputRightElement>
           <Input
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearchMovie();
+              }
+            }}
             border="2px solid"
             placeholder="Pesquise por um filme, série..."
             focusBorderColor="none"
@@ -73,7 +80,8 @@ export default function Header() {
         </InputGroup>
 
         <Flex alignItems={'center'}>
-          <Stack direction={'row'} spacing={7}>
+          <Stack direction={'row'} spacing={{ base: 3, md: 7 }}>
+            <LanguageSwitcher />
             <ColorModeSwitcher />
             <Menu>
               <MenuButton
@@ -96,9 +104,9 @@ export default function Header() {
                 </Center>
                 <br />
                 <MenuDivider />
-                <MenuItem>Configurações</MenuItem>
+                <MenuItem>{t('header.settings')}</MenuItem>
                 <MenuItem onClick={signOut}>
-                  <Text>Logout</Text>
+                  <Text>{t('header.logout')}</Text>
                 </MenuItem>
               </MenuList>
             </Menu>
